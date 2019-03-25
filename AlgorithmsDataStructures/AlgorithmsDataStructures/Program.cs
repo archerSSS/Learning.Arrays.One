@@ -10,7 +10,6 @@ namespace AlgorithmsDataStructures
     {
         public static void Main(String[] args)
         {
-
         }
     }
 }

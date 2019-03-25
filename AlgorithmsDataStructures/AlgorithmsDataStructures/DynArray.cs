@@ -22,16 +22,13 @@ namespace AlgorithmsDataStructures
             {
                 if (new_capacity < 16) new_capacity = 16;
                 capacity = new_capacity;
-
-                //Создание *нового временного массива с новой длинной
+                
                 T[] temp_array = new T[capacity];
-                //Копирование *элементов старого массива в новый
+                
                 Array.Copy(array, 0, temp_array, 0, count);
-
-                //Назначение *нового размера старому массиву.
+                
                 array = new T[capacity];
-
-                //Копирование *элементов временного массива старому
+                
                 Array.Copy(temp_array, 0, array, 0, count);
             }
             else
@@ -48,7 +45,7 @@ namespace AlgorithmsDataStructures
             {
                 return array[index];
             }
-            catch (IndexOutOfRangeException) { }
+            catch (ArgumentOutOfRangeException) { }
             return default(T);
         }
 
@@ -60,35 +57,47 @@ namespace AlgorithmsDataStructures
             count++;
         }
 
-
+        // Сложность схожая с методом Remove() за исключением дополнительного вызова метода Copy() в методе Remove()
         public void Insert(T itm, int index)
         {
             T[] temp_array = new T[array.Length];
             array.CopyTo(temp_array, 0);
-
             try
             {
+                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
                 if (count == array.Length) MakeArray(array.Length * 2);
-                for (int i = count + 1; i > index; i--)
-                {
-                    array[i] = array[i - 1];
-                }
+                Array.Copy(temp_array, index, array, index+1, count-index);
                 array[index] = itm;
                 count++;
             }
-            catch (IndexOutOfRangeException) { array = temp_array; }
+            catch (ArgumentOutOfRangeException)
+            {
+                array = temp_array;
+                capacity = temp_array.Length;
+            }
         }
 
-
+        // Сложность схожая с методом Insert() за исключением дополнительной операции с копированием значений до указанного элемента,
+        // затем чтобы все остальные элементы после указанного сместить в его сторону.
+        // Дополнительно проводится проверка на минимальный размер буфера 
         public void Remove(int index)
         {
+            T[] temp_array = new T[array.Length];
+            array.CopyTo(temp_array, 0);
+            array = new T[capacity];
             try
             {
-                Array.Copy(array, index + 1, array, index, count - index - 1);
+                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+                Array.Copy(temp_array, 0, array, 0, index);
+                Array.Copy(temp_array, index + 1, array, index, count - index - 1);
+                count--;
+                if (count < capacity / 2) { MakeArray(capacity / 2); }
             }
-            catch (IndexOutOfRangeException) { }
-            count--;
-            if (count < capacity / 1.5) { MakeArray((int)(capacity / 1.5)); }
+            catch (ArgumentOutOfRangeException)
+            {
+                array = temp_array;
+                capacity = temp_array.Length;
+            }
         }
     }
 }
