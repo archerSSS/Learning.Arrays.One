@@ -45,7 +45,7 @@ namespace AlgorithmsDataStructures
             {
                 return array[index];
             }
-            catch (ArgumentOutOfRangeException) { }
+            catch (IndexOutOfRangeException) { }
             return default(T);
         }
 
