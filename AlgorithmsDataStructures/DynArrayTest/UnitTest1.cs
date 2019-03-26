@@ -20,6 +20,7 @@ namespace DynArrayTest
             Assert.AreEqual(12, dya.count);
         }
 
+
         [TestMethod]
         public void InsertTest()
         {
@@ -70,6 +71,7 @@ namespace DynArrayTest
             Assert.AreEqual(16, dya.array.Length);
         }
 
+
         [TestMethod]
         public void InsertOverLoadTest()
         {
@@ -119,6 +121,7 @@ namespace DynArrayTest
             Assert.AreEqual(32, dya.capacity);
             Assert.AreEqual(32, dya.array.Length);
         }
+        
 
         [TestMethod]
         public void InsertWrongIndexTest()
@@ -138,6 +141,7 @@ namespace DynArrayTest
             Assert.AreEqual(16, dya.array.Length);
             Assert.AreEqual(16, dya.capacity);
         }
+
 
         [TestMethod]
         public void RemoveTest()
@@ -167,6 +171,7 @@ namespace DynArrayTest
             Assert.AreEqual(15, dya.count);
         }
 
+
         [TestMethod]
         public void RemoveRangeDecreaseTest()
         {
@@ -193,6 +198,7 @@ namespace DynArrayTest
             Assert.AreEqual(31, dya.count);
         }
 
+
         [TestMethod]
         public void RemoveWrongIndexTest()
         {
@@ -209,6 +215,92 @@ namespace DynArrayTest
             for (int i = 0; i < dya.capacity; i++)
             {
                 Assert.AreEqual(i, dya.GetItem(i));
+            }
+        }
+
+        
+        [TestMethod]
+        public void InsertOverLoadTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
+            
+            Assert.AreEqual(15, dya.GetItem(15));
+            Assert.AreEqual(16, dya.count);
+
+            dya.Insert(100, 15);
+            
+            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual(32, dya.array.Length);
+
+            Assert.AreEqual(14, dya.GetItem(14));
+            Assert.AreEqual(100, dya.GetItem(15));
+            Assert.AreEqual(15, dya.GetItem(16));
+        }
+
+
+        [TestMethod]
+        public void InsertOverLoadTest_3()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
+
+            Assert.AreEqual(15, dya.GetItem(15));
+            Assert.AreEqual(16, dya.count);
+
+            dya.Insert(100, 16);
+
+            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual(32, dya.array.Length);
+
+            Assert.AreEqual(14, dya.GetItem(14));
+            Assert.AreEqual(100, dya.GetItem(16));
+            Assert.AreEqual(15, dya.GetItem(15));
+        }
+
+
+        [TestMethod]
+        public void My_RemoveTest_1()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++) { dya.Append(i); }
+
+            for (int i = 0; i < 16; i++)
+            {
+                Console.WriteLine(dya.GetItem(i));
+            }
+
+            dya.Remove(15);
+            dya.Remove(0);
+            dya.Remove(4);
+
+            for (int i = 0; i < 15; i++)
+            {
+                Console.WriteLine(dya.GetItem(i));
+            }
+        }
+
+        [TestMethod]
+        public void My_RemoveTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 33; i++) { dya.Append(i); }
+            Console.WriteLine(dya.count + " Count");
+            Console.WriteLine(dya.capacity + " Cap");
+            for (int i = 0; i < 33; i++)
+            {
+                Console.WriteLine(dya.GetItem(i));
+            }
+
+            dya.Remove(15);
+            dya.Remove(15);
+
+            Console.WriteLine(dya.count + " Count");
+            Console.WriteLine(dya.capacity + " Cap");
+
+            for (int i = 0; i < dya.capacity; i++)
+            {
+                Console.WriteLine(dya.GetItem(i));
             }
         }
     }

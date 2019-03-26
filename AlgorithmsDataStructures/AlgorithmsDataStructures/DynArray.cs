@@ -20,16 +20,13 @@ namespace AlgorithmsDataStructures
         {
             if (array != null)
             {
+                if (new_capacity < 0) throw new Exception();
                 if (new_capacity < 16) new_capacity = 16;
                 capacity = new_capacity;
-                
+
                 T[] temp_array = new T[capacity];
-                
                 Array.Copy(array, 0, temp_array, 0, count);
-                
-                array = new T[capacity];
-                
-                Array.Copy(temp_array, 0, array, 0, count);
+                array = temp_array;
             }
             else
             {
@@ -52,20 +49,27 @@ namespace AlgorithmsDataStructures
 
         public void Append(T itm)
         {
-            if (count == array.Length) MakeArray(array.Length * 2);
-            array[count] = itm;
-            count++;
+            try
+            {
+                if (count == array.Length) MakeArray(array.Length * 2);
+                array[count] = itm;
+                count++;
+            }
+            catch (IndexOutOfRangeException) { }
         }
 
         // Сложность схожая с методом Remove() за исключением дополнительного вызова метода Copy() в методе Remove()
+        // Значительно упрощает ситуацию в методе Insert случай, при котором добавление происходит в хвост массива
         public void Insert(T itm, int index)
         {
-            T[] temp_array = new T[array.Length];
-            array.CopyTo(temp_array, 0);
+            if (index == count) { Append(itm); return; }
+            T[] temp_array = new T[capacity];
             try
             {
-                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+                array.CopyTo(temp_array, 0);
                 if (count == array.Length) MakeArray(array.Length * 2);
+                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+
                 Array.Copy(temp_array, index, array, index+1, count-index);
                 array[index] = itm;
                 count++;
