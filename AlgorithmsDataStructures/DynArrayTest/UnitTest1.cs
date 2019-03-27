@@ -198,7 +198,7 @@ namespace DynArrayTest
             Assert.AreEqual(31, dya.count);
         }
 
-
+        //Попытка удаления элемента за пределами границ массива
         [TestMethod]
         public void RemoveWrongIndexTest()
         {
@@ -218,7 +218,8 @@ namespace DynArrayTest
             }
         }
 
-        
+        //Добавляет 16 элементов и вставляет один на место 16-го и увеличивает размер буфера
+        //
         [TestMethod]
         public void InsertOverLoadTest_2()
         {
@@ -238,7 +239,7 @@ namespace DynArrayTest
             Assert.AreEqual(15, dya.GetItem(16));
         }
 
-
+        //Добавляет 16 элементов и вставляет один за пределами
         [TestMethod]
         public void InsertOverLoadTest_3()
         {
@@ -250,58 +251,12 @@ namespace DynArrayTest
 
             dya.Insert(100, 16);
 
-            Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(32, dya.array.Length);
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(16, dya.array.Length);
 
             Assert.AreEqual(14, dya.GetItem(14));
-            Assert.AreEqual(100, dya.GetItem(16));
+            Assert.AreEqual(0, dya.GetItem(16));
             Assert.AreEqual(15, dya.GetItem(15));
-        }
-
-
-        [TestMethod]
-        public void My_RemoveTest_1()
-        {
-            DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 16; i++) { dya.Append(i); }
-
-            for (int i = 0; i < 16; i++)
-            {
-                Console.WriteLine(dya.GetItem(i));
-            }
-
-            dya.Remove(15);
-            dya.Remove(0);
-            dya.Remove(4);
-
-            for (int i = 0; i < 15; i++)
-            {
-                Console.WriteLine(dya.GetItem(i));
-            }
-        }
-
-        [TestMethod]
-        public void My_RemoveTest_2()
-        {
-            DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 33; i++) { dya.Append(i); }
-            Console.WriteLine(dya.count + " Count");
-            Console.WriteLine(dya.capacity + " Cap");
-            for (int i = 0; i < 33; i++)
-            {
-                Console.WriteLine(dya.GetItem(i));
-            }
-
-            dya.Remove(15);
-            dya.Remove(15);
-
-            Console.WriteLine(dya.count + " Count");
-            Console.WriteLine(dya.capacity + " Cap");
-
-            for (int i = 0; i < dya.capacity; i++)
-            {
-                Console.WriteLine(dya.GetItem(i));
-            }
         }
     }
 }

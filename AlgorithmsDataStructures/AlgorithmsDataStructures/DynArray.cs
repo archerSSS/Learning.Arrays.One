@@ -62,13 +62,13 @@ namespace AlgorithmsDataStructures
         // Значительно упрощает ситуацию в методе Insert случай, при котором добавление происходит в хвост массива
         public void Insert(T itm, int index)
         {
-            if (index == count) { Append(itm); return; }
             T[] temp_array = new T[capacity];
             try
             {
                 array.CopyTo(temp_array, 0);
-                if (count == array.Length) MakeArray(array.Length * 2);
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+                if (index == count) { Append(itm); return; }
+                if (count == array.Length) MakeArray(array.Length * 2);
 
                 Array.Copy(temp_array, index, array, index+1, count-index);
                 array[index] = itm;
