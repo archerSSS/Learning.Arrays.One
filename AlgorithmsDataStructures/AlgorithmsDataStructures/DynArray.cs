@@ -20,7 +20,6 @@ namespace AlgorithmsDataStructures
         {
             if (array != null)
             {
-                if (new_capacity < 0) throw new Exception();
                 if (new_capacity < 16) new_capacity = 16;
                 capacity = new_capacity;
 
@@ -68,7 +67,7 @@ namespace AlgorithmsDataStructures
                 array.CopyTo(temp_array, 0);
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
                 if (index == count) { Append(itm); return; }
-                if (count == array.Length) MakeArray(array.Length * 2);
+                if (count == capacity) MakeArray(capacity * 2);
 
                 Array.Copy(temp_array, index, array, index+1, count-index);
                 array[index] = itm;
