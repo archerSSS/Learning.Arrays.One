@@ -121,7 +121,50 @@ namespace DynArrayTest
             Assert.AreEqual(32, dya.capacity);
             Assert.AreEqual(32, dya.array.Length);
         }
-        
+
+
+        //Добавляет 16 элементов и вставляет один на место 16-го и увеличивает размер буфера
+        //
+        [TestMethod]
+        public void InsertOverLoadTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
+
+            Assert.AreEqual(15, dya.GetItem(15));
+            Assert.AreEqual(16, dya.count);
+
+            dya.Insert(100, 15);
+
+            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual(32, dya.array.Length);
+
+            Assert.AreEqual(14, dya.GetItem(14));
+            Assert.AreEqual(100, dya.GetItem(15));
+            Assert.AreEqual(15, dya.GetItem(16));
+        }
+
+
+        //Добавляет 16 элементов и проводится попытка вставить один за пределами буфера
+        [TestMethod]
+        public void InsertOverLoadTest_3()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
+
+            Assert.AreEqual(15, dya.GetItem(15));
+            Assert.AreEqual(16, dya.count);
+
+            dya.Insert(100, 16);
+
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(16, dya.array.Length);
+
+            Assert.AreEqual(14, dya.GetItem(14));
+            Assert.AreEqual(0, dya.GetItem(16));
+            Assert.AreEqual(15, dya.GetItem(15));
+        }
+
 
         [TestMethod]
         public void InsertWrongIndexTest()
@@ -216,47 +259,6 @@ namespace DynArrayTest
             {
                 Assert.AreEqual(i, dya.GetItem(i));
             }
-        }
-
-        //Добавляет 16 элементов и вставляет один на место 16-го и увеличивает размер буфера
-        //
-        [TestMethod]
-        public void InsertOverLoadTest_2()
-        {
-            DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
-            
-            Assert.AreEqual(15, dya.GetItem(15));
-            Assert.AreEqual(16, dya.count);
-
-            dya.Insert(100, 15);
-            
-            Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(32, dya.array.Length);
-
-            Assert.AreEqual(14, dya.GetItem(14));
-            Assert.AreEqual(100, dya.GetItem(15));
-            Assert.AreEqual(15, dya.GetItem(16));
-        }
-
-        //Добавляет 16 элементов и вставляет один за пределами
-        [TestMethod]
-        public void InsertOverLoadTest_3()
-        {
-            DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 16; i++) { dya.Insert(i, i); }
-
-            Assert.AreEqual(15, dya.GetItem(15));
-            Assert.AreEqual(16, dya.count);
-
-            dya.Insert(100, 16);
-
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.array.Length);
-
-            Assert.AreEqual(14, dya.GetItem(14));
-            Assert.AreEqual(0, dya.GetItem(16));
-            Assert.AreEqual(15, dya.GetItem(15));
         }
     }
 }

@@ -57,27 +57,23 @@ namespace AlgorithmsDataStructures
             catch (IndexOutOfRangeException) { }
         }
 
-        // Сложность схожая с методом Remove() за исключением дополнительного вызова метода Copy() в методе Remove()
-        // Значительно упрощает ситуацию в методе Insert случай, при котором добавление происходит в хвост массива
+        
         public void Insert(T itm, int index)
         {
-            T[] temp_array = new T[capacity];
             try
             {
-                array.CopyTo(temp_array, 0);
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
                 if (index == count) { Append(itm); return; }
+                T[] temp_array = array;
                 if (count == capacity) MakeArray(capacity * 2);
-
-                Array.Copy(temp_array, index, array, index+1, count-index);
-                array[index] = itm;
+                for (int i = count; i >= index ; i--)
+                {
+                    if (i == index) array[i] = itm;
+                    else array[i] = temp_array[i - 1];
+                }
                 count++;
             }
-            catch (ArgumentOutOfRangeException)
-            {
-                array = temp_array;
-                capacity = temp_array.Length;
-            }
+            catch (ArgumentOutOfRangeException){}
         }
 
         // Сложность схожая с методом Insert() за исключением дополнительной операции с копированием значений до указанного элемента,
@@ -85,21 +81,21 @@ namespace AlgorithmsDataStructures
         // Дополнительно проводится проверка на минимальный размер буфера 
         public void Remove(int index)
         {
-            T[] temp_array = new T[array.Length];
-            array.CopyTo(temp_array, 0);
-            array = new T[capacity];
             try
             {
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
-                Array.Copy(temp_array, 0, array, 0, index);
-                Array.Copy(temp_array, index + 1, array, index, count - index - 1);
+                T[] temp_array = new T[capacity];
+                for (int i = count - 2; i >= 0; i--)
+                {
+                    if (i >= index) temp_array[i] = array[i + 1];
+                    else temp_array[i] = array[i];
+                }
+                array = temp_array;
                 count--;
                 if (count < capacity / 2) { MakeArray(capacity / 2); }
             }
             catch (ArgumentOutOfRangeException)
             {
-                array = temp_array;
-                capacity = temp_array.Length;
             }
         }
     }
