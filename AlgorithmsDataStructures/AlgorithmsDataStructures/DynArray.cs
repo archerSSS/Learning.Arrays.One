@@ -92,9 +92,7 @@ namespace AlgorithmsDataStructures
                 count--;
                 if (count < capacity / 2) { MakeArray(capacity / 2); }
             }
-            catch (ArgumentOutOfRangeException)
-            {
-            }
+            catch (ArgumentOutOfRangeException){}
         }
     }
 }
