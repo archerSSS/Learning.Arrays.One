@@ -157,11 +157,11 @@ namespace DynArrayTest
 
             dya.Insert(100, 16);
 
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.array.Length);
+            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual(17, dya.count);
 
             Assert.AreEqual(14, dya.GetItem(14));
-            Assert.AreEqual(0, dya.GetItem(16));
+            Assert.AreEqual(100, dya.GetItem(16));
             Assert.AreEqual(15, dya.GetItem(15));
         }
 

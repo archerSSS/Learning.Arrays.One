@@ -62,8 +62,13 @@ namespace AlgorithmsDataStructures
         {
             try
             {
+                if (index == count)
+                {
+                    if (index == capacity) MakeArray(capacity * 2);
+                    Append(itm);
+                    return;
+                }
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
-                if (index == count) { Append(itm); return; }
                 T[] temp_array = array;
                 if (count == capacity) MakeArray(capacity * 2);
                 for (int i = count; i >= index ; i--)
