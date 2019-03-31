@@ -57,30 +57,35 @@ namespace AlgorithmsDataStructures
             catch (IndexOutOfRangeException) { }
         }
 
-        
+
         public void Insert(T itm, int index)
         {
             try
             {
-                if (index == count)
+                if (index > count) return;
+                if (index < 0 || index >= capacity)
                 {
-                    if (index == capacity) MakeArray(capacity * 2);
-                    Append(itm);
-                    return;
+                    if (index == count)
+                    {
+                        if (index == capacity) MakeArray(capacity * 2);
+                        Append(itm);
+                        return;
+                    }
+                    throw new IndexOutOfRangeException();
                 }
-                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
-                if (index > count) throw new Exception();
+                if (index == count) { Append(itm); return; }
+                
                 T[] temp_array = array;
                 if (count == capacity) MakeArray(capacity * 2);
-                for (int i = count; i >= index ; i--)
+
+                for (int i = count; i >= index; i--)
                 {
                     if (i == index) array[i] = itm;
                     else array[i] = temp_array[i - 1];
                 }
                 count++;
             }
-            catch (ArgumentOutOfRangeException){}
-            catch (Exception){}
+            catch (IndexOutOfRangeException) {}
         }
 
 
@@ -88,8 +93,9 @@ namespace AlgorithmsDataStructures
         {
             try
             {
-                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
-                if (index > count - 1) throw new Exception();
+                if (index < 0 || index >= capacity) throw new IndexOutOfRangeException();
+                if (index > count - 1) return;
+
                 T[] temp_array = new T[capacity];
                 for (int i = count - 2; i >= 0; i--)
                 {
@@ -100,8 +106,7 @@ namespace AlgorithmsDataStructures
                 count--;
                 if (count < capacity / 2) { MakeArray(capacity / 2); }
             }
-            catch (ArgumentOutOfRangeException){}
-            catch (Exception){}
+            catch (IndexOutOfRangeException) { }
         }
     }
 }

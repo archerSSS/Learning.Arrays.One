@@ -80,46 +80,17 @@ namespace DynArrayTest
             {
                 dya.Append(i);
             }
-
-            //Проверка значений элементов(5-го и 6-го) до вставки нового
-            //
-            Assert.AreEqual(5, dya.GetItem(5));
-            Assert.AreEqual(6, dya.GetItem(6));
-
-            //Проверка значения 15-го элемента(последнего добавленного) до вставки нового
-            Assert.AreEqual(15, dya.GetItem(15));
-
-            //Проверка значения 16-го элемента(после последнего добавленного) до вставки нового
-            Assert.AreEqual(0, dya.GetItem(16));
-
-            //Проверка на количество элементов до вставки
+            
             Assert.AreEqual(16, dya.count);
-
-            //Проверка размера буфера до вставки
-            //
             Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.array.Length);
-
-            //Вставка нового элемента на место 5-го элемента
+            
             dya.Insert(300, 5);
-
-            //Проверка значений элементов(5-го и 6-го) после вставки нового
-            //
+            
             Assert.AreEqual(300, dya.GetItem(5));
             Assert.AreEqual(5, dya.GetItem(6));
-
-            //Проверка значений 11-го и 12-го элементов после вставки нового
-            //
-            Assert.AreEqual(10, dya.GetItem(11));
-            Assert.AreEqual(11, dya.GetItem(12));
-
-            //Проверка на количество элементов после вставки
+            
             Assert.AreEqual(17, dya.count);
-
-            //Проверка размера буфера после вставки
-            //
             Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(32, dya.array.Length);
         }
 
 
@@ -166,7 +137,7 @@ namespace DynArrayTest
 
 
         [TestMethod]
-        public void InsertWrongIndexTest()
+        public void InsertWrongIndexTest_1()
         {
             DynArray<int> dya = new DynArray<int>();
             for (int i = 0; i < 16; i++)
@@ -174,14 +145,81 @@ namespace DynArrayTest
                 dya.Append(i);
             }
             dya.Insert(100, 17);
-
-            //Проверка на отсутствие изменений
+            
             Assert.AreEqual(0, dya.GetItem(17));
 
-            //Проверка размера буфера после попытки вставки
-            //
-            Assert.AreEqual(16, dya.array.Length);
             Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(16, dya.count);
+        }
+
+
+        [TestMethod]
+        public void InsertWrongIndexTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 16; i++)
+            {
+                dya.Append(i);
+            }
+
+            dya.Insert(100, -1);
+            
+            Assert.AreEqual(0, dya.GetItem(-1));
+            
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(16, dya.count);
+        }
+
+
+        [TestMethod]
+        public void InsertWrongIndexTest_3()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 8; i++)
+            {
+                dya.Append(i);
+            }
+            dya.Insert(100, 16);
+            
+            Assert.AreEqual(0, dya.GetItem(16));
+            
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(8, dya.count);
+        }
+
+
+        [TestMethod]
+        public void InsertWrongIndexTest_4()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            
+            dya.Insert(100, 16);
+
+            Assert.AreEqual(0, dya.GetItem(16));
+
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(0, dya.count);
+        }
+
+
+        [TestMethod]
+        public void InsertWrongIndexTest_5()
+        {
+            DynArray<Obj> dya = new DynArray<Obj>();
+            for (int i = 0; i < 15; i++)
+            {
+                dya.Append(new Obj(i));
+            }
+            Obj o1 = dya.GetItem(14);
+            Obj o2 = dya.GetItem(13);
+
+            dya.Insert(new Obj(16), 16);
+
+            Assert.AreEqual(null, dya.GetItem(16));
+            Assert.AreEqual(o1, dya.GetItem(14));
+
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(15, dya.count);
         }
 
 
@@ -269,7 +307,10 @@ namespace DynArrayTest
                 dya.Append(i);
             }
 
-            dya.Remove(13);
+            dya.Remove(0);
+            dya.Remove(100);
+            dya.Remove(14);
+            dya.Remove(1);
         }
     }
 }
