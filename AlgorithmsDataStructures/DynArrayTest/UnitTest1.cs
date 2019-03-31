@@ -158,7 +158,6 @@ namespace DynArrayTest
             dya.Insert(100, 16);
 
             Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(17, dya.count);
 
             Assert.AreEqual(14, dya.GetItem(14));
             Assert.AreEqual(100, dya.GetItem(16));
@@ -259,6 +258,22 @@ namespace DynArrayTest
             {
                 Assert.AreEqual(i, dya.GetItem(i));
             }
+        }
+
+        [TestMethod]
+        public void MyRemoveTest()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 10; i++)
+            {
+                dya.Append(i);
+            }
+
+
+
+            //dya.Insert(100, 13);
+
+
         }
     }
 }
