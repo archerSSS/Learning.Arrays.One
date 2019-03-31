@@ -68,7 +68,8 @@ namespace AlgorithmsDataStructures
                     Append(itm);
                     return;
                 }
-                if (index < 0 || index >= capacity || index > count) throw new ArgumentOutOfRangeException();
+                if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+                if (index > count) throw new Exception();
                 T[] temp_array = array;
                 if (count == capacity) MakeArray(capacity * 2);
                 for (int i = count; i >= index ; i--)
@@ -79,6 +80,7 @@ namespace AlgorithmsDataStructures
                 count++;
             }
             catch (ArgumentOutOfRangeException){}
+            catch (Exception){}
         }
 
 
@@ -87,6 +89,7 @@ namespace AlgorithmsDataStructures
             try
             {
                 if (index < 0 || index >= capacity) throw new ArgumentOutOfRangeException();
+                if (index > count - 1) throw new Exception();
                 T[] temp_array = new T[capacity];
                 for (int i = count - 2; i >= 0; i--)
                 {
@@ -98,6 +101,7 @@ namespace AlgorithmsDataStructures
                 if (count < capacity / 2) { MakeArray(capacity / 2); }
             }
             catch (ArgumentOutOfRangeException){}
+            catch (Exception){}
         }
     }
 }

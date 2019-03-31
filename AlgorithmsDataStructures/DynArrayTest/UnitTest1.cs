@@ -269,11 +269,7 @@ namespace DynArrayTest
                 dya.Append(i);
             }
 
-
-
-            //dya.Insert(100, 13);
-
-
+            dya.Remove(13);
         }
     }
 }
