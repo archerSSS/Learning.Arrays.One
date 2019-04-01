@@ -224,7 +224,7 @@ namespace DynArrayTest
 
 
         [TestMethod]
-        public void RemoveTest()
+        public void RemoveTest_1()
         {
             DynArray<int> dya = new DynArray<int>();
             for (int i = 0; i < 16; i++)
@@ -249,6 +249,47 @@ namespace DynArrayTest
 
             //Проверка длины массива
             Assert.AreEqual(15, dya.count);
+        }
+
+
+        [TestMethod]
+        public void RemoveTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 17; i++)
+            {
+                dya.Append(i);
+            }
+
+            for (int i = 0; i < 17; i++)
+            {
+                Assert.AreEqual(i, dya.GetItem(0));
+                dya.Remove(0);
+            }
+
+            Assert.AreEqual(16, dya.capacity);
+            Assert.AreEqual(0, dya.count);
+        }
+
+
+        [TestMethod]
+        public void RemoveTest_3()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 1; i < 4; i++)
+            {
+                dya.Append(i);
+            }
+
+            dya.Remove(1);
+            Assert.AreEqual(1, dya.GetItem(0));
+            Assert.AreEqual(3, dya.GetItem(1));
+            Assert.AreEqual(0, dya.GetItem(2));
+            dya.Remove(1);
+            Assert.AreEqual(1, dya.GetItem(0));
+            Assert.AreEqual(0, dya.GetItem(1));
+            dya.Remove(0);
+            Assert.AreEqual(0, dya.GetItem(0));
         }
 
 
@@ -280,7 +321,7 @@ namespace DynArrayTest
 
         //Попытка удаления элемента за пределами границ массива
         [TestMethod]
-        public void RemoveWrongIndexTest()
+        public void RemoveWrongIndexTest_1()
         {
             DynArray<int> dya = new DynArray<int>();
             for (int i = 0; i < 16; i++)
@@ -297,6 +338,43 @@ namespace DynArrayTest
                 Assert.AreEqual(i, dya.GetItem(i));
             }
         }
+
+
+        [TestMethod]
+        public void RemoveWrongIndexTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 2; i++)
+            {
+                dya.Append(i);
+            }
+
+            dya.Remove(5);
+
+            Assert.AreEqual(2, dya.count);
+            Assert.AreEqual(0, dya.GetItem(0));
+            Assert.AreEqual(1, dya.GetItem(1));
+            Assert.AreEqual(0, dya.GetItem(2));
+        }
+
+
+        [TestMethod]
+        public void RemoveWrongIndexTest_3()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 2; i++)
+            {
+                dya.Append(i);
+            }
+
+            dya.Remove(-1);
+
+            Assert.AreEqual(2, dya.count);
+            Assert.AreEqual(0, dya.GetItem(0));
+            Assert.AreEqual(1, dya.GetItem(1));
+            Assert.AreEqual(0, dya.GetItem(-1));
+        }
+
 
         [TestMethod]
         public void MyRemoveTest()

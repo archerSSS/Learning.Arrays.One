@@ -50,7 +50,7 @@ namespace AlgorithmsDataStructures
         {
             try
             {
-                if (count == array.Length) MakeArray(array.Length * 2);
+                if (count == capacity) MakeArray(array.Length * 2);
                 array[count] = itm;
                 count++;
             }
@@ -62,28 +62,19 @@ namespace AlgorithmsDataStructures
         {
             try
             {
-                if (index > count) return;
-                if (index < 0 || index >= capacity)
+                if (index < 0 || index > count) throw new IndexOutOfRangeException();
+                if (index == count) Append(itm);
+                else
                 {
-                    if (index == count)
+                    T[] temp_array = array;
+                    if (count == capacity) MakeArray(capacity * 2);
+                    for (int i = count; i >= index; i--)
                     {
-                        if (index == capacity) MakeArray(capacity * 2);
-                        Append(itm);
-                        return;
+                        if (i == index) array[i] = itm;
+                        else array[i] = temp_array[i - 1];
                     }
-                    throw new IndexOutOfRangeException();
+                    count++;
                 }
-                if (index == count) { Append(itm); return; }
-                
-                T[] temp_array = array;
-                if (count == capacity) MakeArray(capacity * 2);
-
-                for (int i = count; i >= index; i--)
-                {
-                    if (i == index) array[i] = itm;
-                    else array[i] = temp_array[i - 1];
-                }
-                count++;
             }
             catch (IndexOutOfRangeException) {}
         }
@@ -93,9 +84,7 @@ namespace AlgorithmsDataStructures
         {
             try
             {
-                if (index < 0 || index >= capacity) throw new IndexOutOfRangeException();
-                if (index > count - 1) return;
-
+                if (index < 0 || index > count - 1) throw new IndexOutOfRangeException();
                 T[] temp_array = new T[capacity];
                 for (int i = count - 2; i >= 0; i--)
                 {
