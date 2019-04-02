@@ -39,7 +39,11 @@ namespace DynArrayTest
             Assert.AreEqual(11, dya.GetItem(11));
 
             //Проверка значения 12-го элемента(после последнего добавленного)  до вставки нового
-            Assert.AreEqual(0, dya.GetItem(12));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(12));
+            }
+            catch (IndexOutOfRangeException) { }
 
             //Проверка на количество элементов до вставки
             Assert.AreEqual(12, dya.count);
@@ -47,7 +51,6 @@ namespace DynArrayTest
             //Проверка размера буфера до вставки
             //
             Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.array.Length);
 
             //Вставка нового элемента на место 5-го элемента
             dya.Insert(300, 5);
@@ -68,7 +71,6 @@ namespace DynArrayTest
             //Проверка размера буфера после вставки
             //
             Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.array.Length);
         }
 
 
@@ -82,7 +84,6 @@ namespace DynArrayTest
             }
             
             Assert.AreEqual(16, dya.count);
-            Assert.AreEqual(16, dya.capacity);
             
             dya.Insert(300, 5);
             
@@ -90,7 +91,6 @@ namespace DynArrayTest
             Assert.AreEqual(5, dya.GetItem(6));
             
             Assert.AreEqual(17, dya.count);
-            Assert.AreEqual(32, dya.capacity);
         }
 
 
@@ -108,7 +108,6 @@ namespace DynArrayTest
             dya.Insert(100, 15);
 
             Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(32, dya.array.Length);
 
             Assert.AreEqual(14, dya.GetItem(14));
             Assert.AreEqual(100, dya.GetItem(15));
@@ -144,12 +143,17 @@ namespace DynArrayTest
             {
                 dya.Append(i);
             }
-            dya.Insert(100, 17);
-            
-            Assert.AreEqual(0, dya.GetItem(17));
-
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.count);
+            try
+            {
+                dya.Insert(100, 17);
+            }
+            catch (IndexOutOfRangeException) { }
+            Assert.AreEqual(15, dya.GetItem(15));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(17));
+            }
+            catch (IndexOutOfRangeException) { }
         }
 
 
@@ -157,17 +161,17 @@ namespace DynArrayTest
         public void InsertWrongIndexTest_2()
         {
             DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 16; i++)
+            for (int i = 1; i < 17; i++)
             {
                 dya.Append(i);
             }
 
-            dya.Insert(100, -1);
-            
-            Assert.AreEqual(0, dya.GetItem(-1));
-            
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(16, dya.count);
+            try
+            {
+                dya.Insert(100, -1);
+            }
+            catch (IndexOutOfRangeException) { }
+            Assert.AreEqual(1, dya.GetItem(0));
         }
 
 
@@ -179,49 +183,19 @@ namespace DynArrayTest
             {
                 dya.Append(i);
             }
-            dya.Insert(100, 16);
-            
-            Assert.AreEqual(0, dya.GetItem(16));
-            
-            Assert.AreEqual(16, dya.capacity);
+            try
+            {
+                dya.Insert(100, 16);
+            }
+            catch (IndexOutOfRangeException) { }
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(16));
+            }
+            catch (IndexOutOfRangeException) { }
             Assert.AreEqual(8, dya.count);
         }
-
-
-        [TestMethod]
-        public void InsertWrongIndexTest_4()
-        {
-            DynArray<int> dya = new DynArray<int>();
-            
-            dya.Insert(100, 16);
-
-            Assert.AreEqual(0, dya.GetItem(16));
-
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(0, dya.count);
-        }
-
-
-        [TestMethod]
-        public void InsertWrongIndexTest_5()
-        {
-            DynArray<Obj> dya = new DynArray<Obj>();
-            for (int i = 0; i < 15; i++)
-            {
-                dya.Append(new Obj(i));
-            }
-            Obj o1 = dya.GetItem(14);
-            Obj o2 = dya.GetItem(13);
-
-            dya.Insert(new Obj(16), 16);
-
-            Assert.AreEqual(null, dya.GetItem(16));
-            Assert.AreEqual(o1, dya.GetItem(14));
-
-            Assert.AreEqual(16, dya.capacity);
-            Assert.AreEqual(15, dya.count);
-        }
-
+        
 
         [TestMethod]
         public void RemoveTest_1()
@@ -240,11 +214,13 @@ namespace DynArrayTest
             }
 
             //Проверка на отсутствие элемента в конце после смещения
-            Assert.AreEqual(0, dya.GetItem(15));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(15));
+            }
+            catch (IndexOutOfRangeException) { }
 
             //Проверка размера буфера после удаления
-            //
-            Assert.AreEqual(16, dya.array.Length);
             Assert.AreEqual(16, dya.capacity);
 
             //Проверка длины массива
@@ -284,12 +260,24 @@ namespace DynArrayTest
             dya.Remove(1);
             Assert.AreEqual(1, dya.GetItem(0));
             Assert.AreEqual(3, dya.GetItem(1));
-            Assert.AreEqual(0, dya.GetItem(2));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(2));
+            }
+            catch (IndexOutOfRangeException) { }
             dya.Remove(1);
             Assert.AreEqual(1, dya.GetItem(0));
-            Assert.AreEqual(0, dya.GetItem(1));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(1));
+            }
+            catch (IndexOutOfRangeException) { }
             dya.Remove(0);
-            Assert.AreEqual(0, dya.GetItem(0));
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(0));
+            }
+            catch (IndexOutOfRangeException) { }
         }
 
 
@@ -306,14 +294,14 @@ namespace DynArrayTest
             //Проверка на отсутствие изменения размера буфера после удаления одного элемента
             //
             Assert.AreEqual(64, dya.capacity);
-            Assert.AreEqual(64, dya.array.Length);
+            Assert.AreEqual(dya.array.Length, dya.count);
 
             dya.Remove(5);
 
             //Проверка размера буфера после удаления одного элемента
             //
             Assert.AreEqual(32, dya.capacity);
-            Assert.AreEqual(32, dya.array.Length);
+            Assert.AreEqual(dya.array.Length, dya.count);
 
             //Проверка длины массива
             Assert.AreEqual(31, dya.count);
@@ -328,12 +316,12 @@ namespace DynArrayTest
             {
                 dya.Append(i);
             }
-            
-            dya.Remove(17);
-
-            //Проверка на отсутствие изменений
-            //
-            for (int i = 0; i < dya.capacity; i++)
+            try
+            {
+                dya.Remove(17);
+            }
+            catch (IndexOutOfRangeException) { }
+            for (int i = 0; i < dya.count; i++)
             {
                 Assert.AreEqual(i, dya.GetItem(i));
             }
@@ -344,17 +332,21 @@ namespace DynArrayTest
         public void RemoveWrongIndexTest_2()
         {
             DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i < 3; i++)
             {
                 dya.Append(i);
             }
 
-            dya.Remove(5);
+            try
+            {
+                dya.Remove(5);
+            }
+            catch (IndexOutOfRangeException) { }
 
-            Assert.AreEqual(2, dya.count);
-            Assert.AreEqual(0, dya.GetItem(0));
-            Assert.AreEqual(1, dya.GetItem(1));
-            Assert.AreEqual(0, dya.GetItem(2));
+            for (int i = 1; i < dya.count+1; i++)
+            {
+                Assert.AreEqual(i, dya.GetItem(i-1));
+            }
         }
 
 
@@ -362,33 +354,66 @@ namespace DynArrayTest
         public void RemoveWrongIndexTest_3()
         {
             DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i < 3; i++)
             {
                 dya.Append(i);
             }
 
-            dya.Remove(-1);
+            try
+            {
+                dya.Remove(-1);
+            }
+            catch (IndexOutOfRangeException) { }
 
             Assert.AreEqual(2, dya.count);
-            Assert.AreEqual(0, dya.GetItem(0));
-            Assert.AreEqual(1, dya.GetItem(1));
-            Assert.AreEqual(0, dya.GetItem(-1));
         }
 
 
         [TestMethod]
-        public void MyRemoveTest()
+        public void RemoveWrongIndexTest_4()
         {
             DynArray<int> dya = new DynArray<int>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i < 3; i++)
             {
                 dya.Append(i);
             }
+            try
+            {
+                dya.Remove(2);
+            }catch (IndexOutOfRangeException) { }
+            
+            Assert.AreEqual(2, dya.count);
+            Assert.AreEqual(1, dya.GetItem(0));
+            Assert.AreEqual(2, dya.GetItem(1));
 
-            dya.Remove(0);
-            dya.Remove(100);
-            dya.Remove(14);
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(2));
+            }catch (IndexOutOfRangeException) { }
+
             dya.Remove(1);
+
+            try
+            {
+                dya.Remove(1);
+            }catch (IndexOutOfRangeException) { }
+            try
+            {
+                Assert.AreEqual(0, dya.GetItem(1));
+            }
+            catch (IndexOutOfRangeException) { }
+            Assert.AreEqual(1, dya.GetItem(0));
+        }
+
+
+        [TestMethod]
+        public void MyTest()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 1; i < 6; i++)
+            {
+                dya.Append(i);
+            }
         }
     }
 }
