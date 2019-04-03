@@ -282,7 +282,7 @@ namespace DynArrayTest
 
 
         [TestMethod]
-        public void RemoveRangeDecreaseTest()
+        public void RemoveRangeDecreaseTest_1()
         {
             DynArray<int> dya = new DynArray<int>();
             for (int i = 0; i < 33; i++)
@@ -300,12 +300,61 @@ namespace DynArrayTest
 
             //Проверка размера буфера после удаления одного элемента
             //
-            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual((int)(64 / 1.5), dya.capacity);
             Assert.AreEqual(dya.array.Length, dya.count);
 
             //Проверка длины массива
             Assert.AreEqual(31, dya.count);
         }
+
+
+        [TestMethod]
+        public void RemoveRangeDecreaseTest_2()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 33; i++)
+            {
+                dya.Append(i);
+            }
+            dya.Remove(32);
+
+            //Проверка на отсутствие изменения размера буфера после удаления одного элемента
+            //
+            Assert.AreEqual(64, dya.capacity);
+            Assert.AreEqual(dya.array.Length, dya.count);
+
+            dya.Remove(31);
+
+            //Проверка размера буфера после удаления одного элемента
+            //
+            Assert.AreEqual((int)(64 / 1.5), dya.capacity);
+            Assert.AreEqual(dya.array.Length, dya.count);
+
+            //Проверка длины массива
+            Assert.AreEqual(31, dya.count);
+        }
+
+        [TestMethod]
+        public void RemoveMaximumDecreaseTest_1()
+        {
+            DynArray<int> dya = new DynArray<int>();
+            for (int i = 0; i < 17; i++)
+            {
+                dya.Append(i);
+            }
+            dya.Remove(0);
+            
+            //Проверка на отсутствие изменения размера буфера после удаления одного элемента
+            //
+            Assert.AreEqual(32, dya.capacity);
+            Assert.AreEqual(dya.array.Length, dya.count);
+
+            dya.Remove(0);
+
+            Assert.AreEqual((int)(32/1.5), dya.capacity);
+            Assert.AreEqual(dya.array.Length, dya.count);
+        }
+
 
         //Попытка удаления элемента за пределами границ массива
         [TestMethod]

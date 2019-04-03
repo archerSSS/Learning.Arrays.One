@@ -22,10 +22,6 @@ namespace AlgorithmsDataStructures
             {
                 if (new_capacity < 16) new_capacity = 16;
                 capacity = new_capacity;
-
-                T[] temp_array = new T[count];
-                Array.Copy(array, 0, temp_array, 0, count);
-                array = temp_array;
             }
             else
             {
@@ -76,7 +72,7 @@ namespace AlgorithmsDataStructures
 
         public void Remove(int index)
         {
-            if (index < 0 || index > count - 1) throw new IndexOutOfRangeException();
+            if (index < 0 || index >= count) throw new IndexOutOfRangeException();
             T[] temp_array = new T[count - 1];
             for (int i = count - 2; i >= 0; i--)
             {
@@ -85,7 +81,7 @@ namespace AlgorithmsDataStructures
             }
             array = temp_array;
             count--;
-            if (count < capacity / 2) { MakeArray(capacity / 2); }
+            if (count < capacity / 2) { MakeArray((int) (capacity / 1.5)); }
         }
     }
 }
